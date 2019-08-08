@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> Student Group</title>
+	<link rel="stylesheet" type="text/css" href="./css/index.css"></style>
+
+
+	<meta name="viewport" 
+		  content="width=device-width, user-scalable=no, 
+		  initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+	<!-- This is not a secure content policy, should be locked down for prod -->
+	<!--<meta http-equiv="Content-Security-Policy" 
+		content="default-src 'self' data: gap: 'unsafe-inline' 
+					https://ssl.gstatic.com https://*.phonegap.com; 
+				style-src 'self' 'unsafe-inline'; 
+				script-src  'self' 'unsafe-inline' 'unsafe-eval' 
+					https://*.phonegap.com ;
+				media-src *" />	-->
+		           
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+	<script src="./js/mysql.js"></script>
+</head>
+
+<body onload="onDeviceReady()">  <!-- Just to see in web format, delete before turning in --> 
+
+	<ul class="tab">
+		<li><a href="#" class="tabLink" id="login" onclick="showTabContent(event, 'Login'  )">Login </a></li>
+		<li><a href="#" class="tabLink" id="home"         onclick="showTabContent(event, 'Home')">Home</a></li>
+		<li><a href="#" class="tabLink" id="find"          onclick="showTabContent(event, 'Find' )">Find</a></li>
+		<li><a href="#" class="tabLink" id="make"         onclick="showTabContent(event, 'Make')">Make</a></li>
+		<li><a href="#" id="logOut" onclick=" showTabContent(event, 'Login'); showTabs()">Sign Out</a></li>
+	</ul>
+
+	<div id="Login" 	class="tabContent">
+			<h3 class="center"> Study Groups Made Easy!</h3>
+			<p class="center">Log in below with your username and password</p>
+	<br>
+
+<form id ="loginForm" action="/action_page.php" id="inputForm" class="center">
+   <input type="text" name="username"  id="userNameID" placeholder = "Username"><br>
+  <input type="password" name="password" id="userPasswordID" placeholder = "Password"> <br><br>
+
+  <!-- <input type="submit" value="Sign In" class ="center"> -->
+   <button type="button" class ="center" onclick="checkUser(event)">Sign In</button> 
+	</form> 
+
+	</div>
+
+	<div id="Home" class="tabContent">
+
+		<p class="center">Choose an action below:</p>
+		<br>
+		
+		<div id="actionButtons">
+		<button class="center" onclick="showTabContent(event, 'Find')">Find Study Group</button>
+		<button class="center"onclick="showTabContent(event, 'Make')">Make Study Group</button>
+		</div>
+
+		<form id="myStudyGroupsId" class="center">
+		<br><br>
+		<p>My study groups:</p>
+		<select id="studyGroupsLB" size=5 onload="displayStudyGroups()" onchange = "getSelected()">
+		</select>
+		<br>
+		<br>
+		<br>
+		<h4 id = "informationHeader"></h4>
+		<h5 id = "courseLabel"></h5>
+		<label id = "sgCourseLbl"></label>
+		<h5 id = "instructorLabel"></h5>
+		<label id = "sgInstructorLbl"></label>
+		<label id = "sgCurrentSizeLbl"></label> 
+		<label id = "sgTimeLbl"></label>
+		<label id = "sgLocationLbl"></label>
+		</form>
+	</div>
+
+	<div id="Find" 	class="tabContent">
+		<h3 class="center">Search for course: </h3><input type = "textbox" class="center" placeholder="Ex. CIS425">
+		<br>
+		<span class="center">Available study groups</span>
+		<select id="availableStudyGroupsLB" size=5 class="center"> 
+			<option>Avail study group 1</option>
+			<option>Avail study group 2</option>
+			<option>Avail study group 3</option>
+			<option>Avail study group 4</option>
+			<option>Avail study group 5</option>
+		</select>
+		<br>
+		<br>
+		<button class="center">Add selected group</button>
+		<button class="center" onclick="showTabContent(event, 'Home')">Return home</button>
+	</div> <!-- End Find div -->
+	
+    
+    </div>
+
+	<div id="Make" class="tabContent">
+		<h3 class = "center">Start a study group!</h3>
+		<p class ="center">Create a new study group by filling in the information below</p>
+		<br>
+		<form id="createForm" class="center">
+		<input type="textbox" placeholder="Course"><br>
+		<input type="textbox" placeholder="Instructor"><br>
+		<input type="textbox" placeholder="Meeting time"><br>
+		<input type="textbox" placeholder="Location"><br><br>
+		<button type="button">Create</button><br>
+		<button type="button" onclick="showTabContent(event, 'Home')">Return home</button>
+		</form>
+	</div>
+
+	<!-- <script type="text/javascript" src="cordova.js"></script> -->
+	<script type="text/javascript" src="./js/index.js"></script>
+	<script>
+		
+		var db_server 	= '193.112.217.144';// server name
+		var db_username = 'root';						// username
+		var db_password = 'Yzrihxt940512';							// password
+		var db_table 	= 'studygroup';				// read/write database
+
+		var insertStmt = "insert into StudyGroup(sgCourse, sgOwnerID, sgSize, sgInstructor, sgTime, sgLocation, sgCurrentSize) values ('2','sue', '30');"
+		var queryStmt  = "select * from studygroup;"
+
+		//var buttonStep1 = document.getElementById('buttonStep1Element');
+		//var buttonStep2 = document.getElementById('buttonStep2Element');
+		//var buttonStep3 = document.getElementById('buttonStep3Element');
+		//var buttonAgain = document.getElementById('buttonAgainElement');
+
+		var myStudyGroups  = document.getElementById('myStudyGroupsId');
+		var studyGroupsLB  = document.getElementById('studyGroupsLB');
+		var step3Query  = document.getElementById('step3query');
+
+		var step1Success= document.getElementById('step1Success');
+		var step2Success= document.getElementById('step2Success');
+		var step3Success= document.getElementById('step3Success');
+
+		var outputStep1 = document.getElementById('outputStep1Element');
+		var outputStep2 = document.getElementById('outputStep2Element');
+
+		//buttonStep1.addEventListener('click', startTask1);
+		//buttonStep2.addEventListener('click', startTask2);
+		//buttonStep3.addEventListener('click', startTask3);
+		//buttonAgain.addEventListener('click', startAgain);
+
+		//buttonStep2.disabled=true;
+		//buttonStep3.disabled=true;
+		//buttonAgain.disabled=true;
+	</script>
+
+</body>
+</html>

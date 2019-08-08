@@ -1,0 +1,153 @@
+/*
+* index.css
+* put your css here
+*/
+
+* {
+    margin:                 0;
+    box-sizing:             border-box;         
+}
+
+input
+{
+    width: 200px;
+    padding: 5px;
+    margin: 2px;
+}
+
+button
+{
+    width: 120px;
+    height: 20px;
+}
+
+#actionButtons button
+{
+    height: 20px;
+    width: 200px;
+    margin-bottom: 3px;
+}
+
+#Find span
+{
+    font-size: 16px;
+}
+
+
+#studyGroupsLB
+{
+    width: 200px;
+}
+
+#availableStudyGroupsLB
+{
+    width: 170px;
+}
+
+#coursesDropDown
+{
+    width: 100px;
+}
+
+#Login p
+{
+    font-size: 15px;
+}
+
+#Make button
+{
+    width: 204px;
+}
+
+#home
+{
+    width: 68px;
+}
+
+html, body 
+{
+    font-family:            sans-serif;
+    height:                 100vh;
+}
+
+.tab
+{
+    width:                  100%;
+}
+
+.tab ul
+{
+    width:                  100%;
+}
+
+ul.tab li #logOut 
+{
+    float:                  right;
+    padding-right:          15px;
+    font-size:              15px;
+}
+
+/* Style the list */
+ul.tab {
+    list-style-type:        none;
+    padding:                0;
+    overflow:               hidden;
+    background-color:       #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li #login, #home, #find, #make {
+
+    float:                  left;
+}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display:                inline-block;
+    color:                  black;
+    padding:                3vh 1vh 0vh 1vh; /* top right bot left */
+    text-decoration:        none;  /* remove underline for the <a> */
+    transition:             0.3s;
+    font-size:              3.0vh;
+    height:                 10vh;
+} 
+
+/* Change background color of links on hover */
+ul.tab li a:hover {
+    background-color:       #ddd;
+}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {
+    background-color:       #ccc;
+}
+
+
+/* Style the tab content */
+.tabContent {
+    display:                none;
+    padding:                10vw 10vw;
+    height:                 90vh;
+    font-size:              2.5vh;
+}
+
+
+.center
+{
+    margin:             auto;
+    display:            table;
+}
+
+*
+{
+    font-family: sans-serif;
+}
+
+
+
+span {
+    border-radius: 10px;
+    border: 2px solid white;
+}
+
+
